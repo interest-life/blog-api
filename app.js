@@ -26,7 +26,7 @@ app.use('/blog',index);
 //   console.log("server listen at http://%s:%s",host,port);
 // });
 
-http.createServer(app).listen(config.server.port,function(){
+var server = app.listen(config.server.port,function(){
   console.log("SERVER IS RUNING!");
 });
 
