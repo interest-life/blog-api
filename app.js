@@ -16,15 +16,22 @@ var index = require("./src/routers/index");
  *如下所示：app.use('/static',express.static('public'))，这个时候访问的时候就可以通过带有/static前缀的地址访问public目录下面的文件了
 */
 app.use('/static',express.static('public'));
-//路由入口
-app.use('/blog',index);
+//一个中间件，所有请求都会经过这个中间件
+app.all(function(req,res,next){
+  //设置跨域请求
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Methods","POST,GET,PUT,OPTIONS,DELETE");
+  res.header("Access-Control-Allow-Headers","Content-Type");
+  //默认情况下，跨域亲求不提供凭证（cookie，HTTP认证以及客户端SSL证明等），设置带请求凭证的时候需要指定这个字段
+  res.header("Access-Control-Allow-Credentials","true");
+  //支持HTTP1.1
+  res.header("Cache-Control","no-cache,no-store,must-revalidate");
+  //支持HTTP 1.0. response.setHeader("Expires", "0");
+  res.setHeader("Pragma", "no-cache");
+  next();
+});
 
-//启动一个服务并监听从3000端口进入的所有连接请求，这里将会对所有的请求路径为/的返回hello-world，对于其它的路径都会返回404NOT FOUND
-// var server = app.listen(8686,function(){
-//   var host = server.address().address;
-//   var port = server.address().port;
-//   console.log("server listen at http://%s:%s",host,port);
-// });
+app.use('/api',index);
 
 var server = app.listen(config.server.port,function(){
   console.log("SERVER IS RUNING!");
