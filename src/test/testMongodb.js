@@ -1,4 +1,4 @@
-var url = require("../../config/config").db.url;
+var url = require("../../config/config").dbpath.url;
 var MongoClient = require("mongodb").MongoClient;
 
 new Promise((resolve,reject)=>{
