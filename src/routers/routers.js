@@ -1,5 +1,7 @@
 var userRouter = require("./user/userRouter");
 
-export default routers=>{
-    routers.use('/user',userRouter);
+var routers = app=>{
+    app.use('/api/user',userRouter);
 }
+
+module.exports = routers;
