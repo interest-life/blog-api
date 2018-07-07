@@ -3,7 +3,6 @@ var config = {
   dbpath:"mongodb://localhost:27017/blog",
     //服务器配置
   server:{
-    host:"",
     port:8082
   }
 }

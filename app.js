@@ -67,7 +67,7 @@ app.use((err,req,res,next)=>{
 });
 
 var server = app.listen(config.server.port,function(){
-  console.log("服务器启动成功!");
+  console.log("服务器启动成功!《》");
   console.log("---------------数据库连接中------------");
   mongoose.connect(config.dbpath);
   const db = mongoose.connection;
