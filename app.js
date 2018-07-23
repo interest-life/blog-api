@@ -3,6 +3,7 @@ var https = require("https");
 var url = require("url");
 var express = require("express");
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var Cookies = require("cookies");
@@ -20,7 +21,12 @@ var app = express();
  *如下所示：app.use('/static',express.static('public'))，这个时候访问的时候就可以通过带有/static前缀的地址访问public目录下面的文件了
 */
 
-app.use(cookieParser())
+app.use(cookieParser());
+app.use(session({
+    secret:'blog-secret',
+    saveUninitialized: false,
+    resave: true
+}))
 app.use(bodyParser.json());//for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));// for parsing application/x-www-form-urlencoded
 
@@ -47,8 +53,20 @@ app.all('*',(req,res,next)=>{
 //cookies中间件
 app.use((req,res,next)=>{
   req.cookies = new Cookies(req,res);
-  console.log(req.body);
   next();
+});
+
+//访问控制
+app.use((req,res,next)=>{
+  //登陆注册放行
+  if(req.path == '/api/user/login' || req.path == '/api/user/register'){
+    next();
+  }
+  else if(!req.session.user){
+    res.redirect("/login");
+  }else{
+    next();
+  }
 });
 
 

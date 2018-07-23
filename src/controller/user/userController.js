@@ -36,11 +36,17 @@ class UserController {
                 return;
             }
             else{
-                req.cookies.set("curUser",JSON.stringify(user));
+                /*req.cookies.set("curUser",JSON.stringify(user));*/
+                req.session.user = user;
                 res.send({user:{userName:user.userName,no:user.no},message:"loginSuccess"});
                 return;
             }
         });
+    }
+
+    static logout(req,res){
+        req.session.user = null;
+        res.redirect('/');
     }
 
     static isUserExist(no){

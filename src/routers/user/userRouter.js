@@ -19,4 +19,8 @@ userRouter.post("/register",(req,res)=>{
     UserController.register(req,res);
 })
 
+userRouter.get("/logout",(req,res)=>{
+    UserController.logout(req,res);
+})
+
 module.exports = userRouter;
